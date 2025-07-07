@@ -1,0 +1,97 @@
+@import "tailwindcss";
+
+body,
+html {
+  font-family: "Poppins", sans-serif;
+}
+
+@layer base {
+  :root {
+    --global-bg: #39425d;
+    --global-text: #080808;
+
+    --global-text: #212832;
+
+    --button-bg: #f1a501;
+    --button-text: #ffffff;
+
+    --edittext-text: #39425d;
+
+    --footer-bg: #080808;
+
+    --text-muted: #5e6282;
+    --section-title: #14183e;
+    --brand-color: #df6951;
+  }
+}
+
+.service-card {
+  position: relative;
+  overflow: visible;
+  z-index: 10;
+}
+
+.shape-overlay {
+  position: absolute;
+  bottom: -30px;
+  left: -40px;
+  width: 80px;
+  height: 80px;
+  background-color: var(--brand-color);
+  border-radius: 30px 0px 10px 0px;
+  z-index: -1;
+
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(100%, -100%);
+  transition: transform 0.4s ease, opacity 0.5s ease;
+}
+
+.service-card:hover .shape-overlay {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+@layer utilities {
+  /* Brand color */
+  .brand-color {
+    color: var(--brand-color);
+  }
+
+  .global-text {
+    color: var(--global-text);
+  }
+
+  /* Button */
+  .bg-button {
+    background-color: var(--button-bg);
+  }
+  .text-button {
+    color: var(--button-text);
+  }
+
+  /* Section Title */
+  .text-muted {
+    color: var(--text-muted);
+  }
+  .text-section-title {
+    color: var(--section-title);
+  }
+
+  .bg-social-hover {
+    background: conic-gradient(
+      from 180deg at 50% 50%,
+      #b8d2f1 0deg,
+      #f289aa 60deg,
+      #c68bf0 106.09deg,
+      #d164da 153.75deg,
+      #c963e8 221.25deg,
+      #bfc2e8 258.75deg,
+      #ffc999 288.75deg,
+      #d0d8c9 315deg,
+      #bad0f1 334.13deg,
+      #ced8cb 358.97deg,
+      rgba(255, 255, 255, 0) 360deg
+    );
+  }
+}
