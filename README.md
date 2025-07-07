@@ -7,16 +7,18 @@ Jadoo is a modern and responsive travel booking landing page built with React, V
 ## Features
 
 - **Responsive Design**: Optimized for various screen sizes.
-- **Modern UI**: Clean and attractive user interface.
+- **Modern UI**: Clean and attractive user interface with animations.
 - **Component-Based**: Built with reusable React components.
 - **Fast Development**: Powered by Vite for a quick development experience.
 - **Styling**: Utilizes Tailwind CSS for utility-first styling.
+- **Animations**: Enhanced with Framer Motion for smooth and engaging UI animations.
 
 ## Technologies Used
 
 - React
 - Vite
 - Tailwind CSS
+- Framer Motion
 
 ## Live Demo
 
