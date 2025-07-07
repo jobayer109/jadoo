@@ -1,5 +1,6 @@
 "use client";
 
+import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
 import SectionTitle from "../../components/SectionTitle";
@@ -41,18 +42,22 @@ const testimonials = [
 
 export default function TestimonialsSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [direction, setDirection] = useState(0); // 0: initial, 1: next, -1: prev
 
   const nextTestimonial = () => {
+    setDirection(1);
     setCurrentIndex((prev) => (prev + 1) % testimonials.length);
   };
 
   const prevTestimonial = () => {
+    setDirection(-1);
     setCurrentIndex(
       (prev) => (prev - 1 + testimonials.length) % testimonials.length
     );
   };
 
   const goToTestimonial = (index) => {
+    setDirection(index > currentIndex ? 1 : -1);
     setCurrentIndex(index);
   };
 
@@ -60,11 +65,41 @@ export default function TestimonialsSection() {
   const nextTestimonialData =
     testimonials[(currentIndex + 1) % testimonials.length];
 
+  const sectionVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+  };
+
+  const cardVariants = {
+    initial: (direction) => ({
+      opacity: 0,
+      y: direction > 0 ? 50 : -50,
+    }),
+    animate: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+    exit: (direction) => ({
+      opacity: 0,
+      y: direction > 0 ? -50 : 50,
+      transition: { duration: 0.3 },
+    }),
+  };
+
   return (
-    <div className="max-w-7xl w-full mx-auto py-16 px-4 sm:px-6 lg:px-4">
+    <motion.div
+      className="max-w-7xl w-full mx-auto py-16 px-4 sm:px-6 lg:px-4"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.3 }}
+      variants={sectionVariants}
+    >
       <div className="grid lg:grid-cols-2 gap-12 sm:gap-20 items-start">
         {/* Left Side */}
-        <div className="space-y-8 sm:space-y-12">
+        <motion.div
+          className="space-y-8 sm:space-y-12"
+          initial={{ opacity: 0, x: -50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true, amount: 0.3 }}
+        >
           <SectionTitle
           className="text-center lg:text-start"
             category="TESTIMONIALS"
@@ -90,56 +125,78 @@ export default function TestimonialsSection() {
               />
             ))}
           </div>
-        </div>
+        </motion.div>
 
         {/* Right Side  */}
-        <div className="relative mt-16 lg:mt-0">
-          <div className="relative flex flex-col sm:flex-row items-start">
-            <div className="relative flex-1 sm:mr-8 p-6 sm:p-10 bg-white rounded-xl shadow-lg z-10 w-full transition-all duration-500 ease-in-out">
-              <div className="">
-                <img
-                  src={currentTestimonial.avatar || "/placeholder.svg"}
-                  alt={currentTestimonial.name}
-                  className="w-20 h-20 rounded-full object-cover shadow-md absolute -top-10 lg:-top-0  lg:-left-10"
-                />
+        <motion.div
+          className="relative mt-16 lg:mt-0"
+          initial={{ opacity: 0, x: 50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          viewport={{ once: true, amount: 0.3 }}
+        >
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentIndex}
+              className="relative flex flex-col sm:flex-row items-start"
+              variants={cardVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              custom={direction}
+            >
+              <div className="relative flex-1 sm:mr-8 p-6 sm:p-10 bg-white rounded-xl shadow-lg z-10 w-full">
+                <div className="">
+                  <img
+                    src={currentTestimonial.avatar || "/placeholder.svg"}
+                    alt={currentTestimonial.name}
+                    className="w-20 h-20 rounded-full object-cover shadow-md absolute -top-10 lg:-top-0  lg:-left-10"
+                  />
+                </div>
+
+                <div className="mb-6 sm:mb-8 mt-10 ">
+                  <blockquote className="text-gray-600 text-[16px] leading-relaxed font-medium">
+                    "{currentTestimonial.quote}"
+                  </blockquote>
+                </div>
+
+                <div className="space-y-1 mb-8 sm:mb-12">
+                  <h4 className="font-semibold text-slate-800 text-lg">
+                    {currentTestimonial.name}
+                  </h4>
+                  <p className="text-muted text-xs sm:text-sm">
+                    {currentTestimonial.location}
+                  </p>
+                </div>
               </div>
 
-              <div className="mb-6 sm:mb-8 mt-10 ">
-                <blockquote className="text-gray-600 text-[16px] leading-relaxed font-medium">
-                  "{currentTestimonial.quote}"
-                </blockquote>
+              {/* Navigation Buttons */}
+              <div className="flex sm:flex-col space-x-3 sm:space-x-0 sm:space-y-3 mt-6 sm:mt-10 justify-center w-full sm:w-auto z-10">
+                <button
+                  onClick={prevTestimonial}
+                  className="w-10 h-10 sm:w-12 sm:h-12 transition-all duration-200 flex items-center justify-center group rounded-full cursor-pointer text-[#BCB7C2] hover:text-black"
+                  aria-label="Previous testimonial"
+                >
+                  <ChevronUp/>
+                </button>
+                <button
+                  onClick={nextTestimonial}
+                  className="w-10 h-10 sm:w-12 sm:h-12 transition-all duration-200 flex items-center justify-center group rounded-full cursor-pointer text-[#BCB7C2] hover:text-black"
+                  aria-label="Next testimonial"
+                >
+                 <ChevronDown className=""/>
+                </button>
               </div>
-
-              <div className="space-y-1 mb-8 sm:mb-12">
-                <h4 className="font-semibold text-slate-800 text-lg">
-                  {currentTestimonial.name}
-                </h4>
-                <p className="text-muted text-xs sm:text-sm">
-                  {currentTestimonial.location}
-                </p>
-              </div>
-            </div>
-
-            {/* Navigation Buttons */}
-            <div className="flex sm:flex-col space-x-3 sm:space-x-0 sm:space-y-3 mt-6 sm:mt-10 justify-center w-full sm:w-auto z-10">
-              <button
-                onClick={prevTestimonial}
-                className="w-10 h-10 sm:w-12 sm:h-12 transition-all duration-200 flex items-center justify-center group rounded-full cursor-pointer text-[#BCB7C2] hover:text-black"
-                aria-label="Previous testimonial"
-              >
-                <ChevronUp/>
-              </button>
-              <button
-                onClick={nextTestimonial}
-                className="w-10 h-10 sm:w-12 sm:h-12 transition-all duration-200 flex items-center justify-center group rounded-full cursor-pointer text-[#BCB7C2] hover:text-black"
-                aria-label="Next testimonial"
-              >
-               <ChevronDown className=""/>
-              </button>
-            </div>
-          </div>
+            </motion.div>
+          </AnimatePresence>
           {/* Next Testimonial Preview */}
-          <div className="hidden lg:block absolute top-[calc(100%-40px)] left-6 sm:left-[60px] w-[calc(100%-40px)] sm:w-[calc(100%-60px)] opacity-40 transition-opacity duration-500 bg-white p-6 sm:p-10 rounded-xl shadow-lg">
+          <motion.div
+            className="hidden lg:block absolute top-[calc(100%-40px)] left-6 sm:left-[60px] w-[calc(100%-40px)] sm:w-[calc(100%-60px)] opacity-40 transition-opacity duration-500 bg-white p-6 sm:p-10 rounded-xl shadow-lg"
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 0.4, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            viewport={{ once: true, amount: 0.3 }}
+          >
             <div className="space-y-4 sm:space-y-6">
               <h4 className="font-semibold text-slate-800 text-base sm:text-lg">
                 {nextTestimonialData.name}
@@ -148,9 +205,9 @@ export default function TestimonialsSection() {
                 {nextTestimonialData.location}
               </p>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 }

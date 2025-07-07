@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { Heart } from "lucide-react";
 import SectionTitle from "../../components/SectionTitle";
 import chooseDestinationIcon from "/images/booking-steps/choose-destination.svg";
@@ -29,11 +30,38 @@ const bookingSteps = [
 ];
 
 const BookingStepsSection = () => {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0 },
+  };
+
   return (
-    <section className="max-w-7xl w-full mx-auto py-16 px-4 sm:px-6 lg:px-4">
+    <motion.section
+      className="max-w-7xl w-full mx-auto py-16 px-4 sm:px-6 lg:px-4"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.3 }}
+      variants={containerVariants}
+    >
       <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
         {/* Left Content */}
-        <div className="w-full lg:w-1/2">
+        <motion.div
+          className="w-full lg:w-1/2"
+          initial={{ opacity: 0, x: -100 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true, amount: 0.3 }}
+        >
           <SectionTitle
             title={
               <>
@@ -43,9 +71,9 @@ const BookingStepsSection = () => {
             category="Easy and Fast"
             className="text-center lg:text-left mb-8 lg:mb-12"
           />
-          <div className="space-y-8 lg:space-y-12">
+          <motion.div className="space-y-8 lg:space-y-12" variants={containerVariants}>
             {bookingSteps.map((step) => (
-              <div key={step.id} className="flex gap-4 lg:gap-5">
+              <motion.div key={step.id} className="flex gap-4 lg:gap-5" variants={itemVariants}>
                 <div className="flex-shrink-0">
                   <img
                     src={step.icon}
@@ -62,17 +90,29 @@ const BookingStepsSection = () => {
                     {step.description}
                   </p>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* Right Content */}
-        <div className="w-full lg:w-1/2 relative z-0 mx-auto flex items-center justify-items-center">
+        <motion.div
+          className="w-full lg:w-1/2 relative z-0 mx-auto flex items-center justify-items-center"
+          initial={{ opacity: 0, x: 100 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          viewport={{ once: true, amount: 0.3 }}
+        >
           <div className="relative">
 
             {/*Trip Card */}
-            <div className="relative z-10 rounded-[26px] p-5 lg:p-6 shadow-md max-w-sm mx-auto lg:mx-0">
+            <motion.div
+              className="relative z-10 rounded-[26px] p-5 lg:p-6 shadow-md max-w-sm mx-auto lg:mx-0"
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              viewport={{ once: true, amount: 0.3 }}
+            >
               <img
                 src="/images/booking-steps/booking-cover.png"
                 alt="Trip to Greece"
@@ -124,10 +164,16 @@ const BookingStepsSection = () => {
                 </div>
                 <Heart className="w-5 h-[18px] text-[#4152CA]" />
               </div>
-            </div>
+            </motion.div>
 
             {/* Trip progress card */}
-            <div className="absolute bottom-0 right-0 lg:bottom-[52px] lg:right-[-150px] rounded-[18px] p-3 lg:p-4 shadow-md flex items-center gap-2 lg:gap-3 w-[243px] lg:w-[300px] bg-white z-10">
+            <motion.div
+              className="absolute bottom-0 right-0 lg:bottom-[52px] lg:right-[-150px] rounded-[18px] p-3 lg:p-4 shadow-md flex items-center gap-2 lg:gap-3 w-[243px] lg:w-[300px] bg-white z-10"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+              viewport={{ once: true, amount: 0.3 }}
+            >
               <div className="w-12 h-12 lg:w-[50px] lg:h-[50px] rounded-full overflow-hidden">
                 <img
                   src="/images/booking-steps/mosque.svg"
@@ -153,11 +199,11 @@ const BookingStepsSection = () => {
                   <div className="w-[44%] h-full bg-[#8A79DF] rounded-full" />
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

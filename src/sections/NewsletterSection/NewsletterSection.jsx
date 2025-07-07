@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import EditText from "../../components/EditText";
 
 const NewsletterSection = () => {
@@ -47,15 +48,24 @@ const NewsletterSection = () => {
       </div>
 
       {/* Floating Action Button */}
-      <div className="absolute top-15 lg:top-18 right-0 lg:right-5">
-        <button className="w-16 h-16 lg:w-[70px] lg:h-[70px] bg-[linear-gradient(216deg,#747def_0%,#5e3be1_100%)] rounded-full flex items-center justify-center shadow-lg hover:scale-105 transition-transform duration-200">
+      <motion.div
+        className="absolute top-15 lg:top-18 right-0 lg:right-5"
+        initial={{ opacity: 0, x: -50, y: 100 }}
+        animate={{ opacity: 1, x: 0, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.5, type: "spring", stiffness: 100 }}
+      >
+        <motion.button
+          className="w-16 h-16 lg:w-[70px] lg:h-[70px] bg-[linear-gradient(216deg,#747def_0%,#5e3be1_100%)] rounded-full flex items-center justify-center shadow-lg"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+        >
           <img
             src="/images/newsletter/send-icon.png"
             alt="Send"
             className="w-8 h-8 lg:w-10 lg:h-10"
           />
-        </button>
-      </div>
+        </motion.button>
+      </motion.div>
 
       {/* Decorative Pattern */}
       <div className="hidden lg:block absolute bottom-0 right-0">
