@@ -1,3 +1,5 @@
+![Jadoo Cover Image](public/readme_cover.png)
+
 # Jadoo - Travel Booking Landing Page
 
 Jadoo is a modern and responsive travel booking landing page built with React, Vite, and Tailwind CSS. It showcases various sections like hero, services, top destinations, booking steps, testimonials, partners, and a newsletter subscription.
@@ -22,7 +24,7 @@ You can view a live demo of the project [here](https://jadoo-traveller.vercel.ap
 
 ## Deployed To
 
-- **Vercel**: 
+- **Vercel**:
 
 ## Project Structure
 
