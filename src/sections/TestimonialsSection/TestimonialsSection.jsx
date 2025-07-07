@@ -118,7 +118,7 @@ export default function TestimonialsSection() {
                 onClick={() => goToTestimonial(index)}
                 className={`w-3 h-3 rounded-full transition-all duration-300 cursor-pointer ${
                   index === currentIndex
-                    ? "bg-slate-800"
+                    ? "bg-[#39425D]"
                     : "bg-gray-300 hover:bg-gray-400"
                 }`}
                 aria-label={`Go to testimonial ${index + 1}`}
@@ -145,7 +145,7 @@ export default function TestimonialsSection() {
               exit="exit"
               custom={direction}
             >
-              <div className="relative flex-1 sm:mr-8 p-6 sm:p-10 bg-white rounded-xl shadow-lg z-10 w-full">
+              <div className="relative flex-1 sm:mr-8 p-6 sm:p-10 rounded-xl shadow-lg z-10 w-full">
                 <div className="">
                   <img
                     src={currentTestimonial.avatar || "/placeholder.svg"}
@@ -155,13 +155,13 @@ export default function TestimonialsSection() {
                 </div>
 
                 <div className="mb-6 sm:mb-8 mt-10 ">
-                  <blockquote className="text-gray-600 text-[16px] leading-relaxed font-medium">
+                  <blockquote className="text-muted text-[16px] leading-relaxed font-medium">
                     "{currentTestimonial.quote}"
                   </blockquote>
                 </div>
 
                 <div className="space-y-1 mb-8 sm:mb-12">
-                  <h4 className="font-semibold text-slate-800 text-lg">
+                  <h4 className="font-semibold text-muted text-lg">
                     {currentTestimonial.name}
                   </h4>
                   <p className="text-muted text-xs sm:text-sm">
